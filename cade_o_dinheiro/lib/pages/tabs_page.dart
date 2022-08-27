@@ -10,7 +10,6 @@ class TabsPage extends StatefulWidget {
 }
 
 class _TabsPageState extends State<TabsPage> {
-
   int _currentIndex = 0;
 
   void _incrementTab(index) {
@@ -24,26 +23,23 @@ class _TabsPageState extends State<TabsPage> {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
-        backgroundColor: AppTheme.colors.light,
-        selectedFontSize: 14,
+        backgroundColor: AppTheme.colors.primary,
+        selectedFontSize: 16,
         unselectedFontSize: 14,
-        selectedItemColor: AppTheme.colors.primary,
+        selectedItemColor: AppTheme.colors.secondary,
+        unselectedItemColor: AppTheme.colors.light,
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.house),
-            label: 'Home'
-          ),
+              icon: FaIcon(FontAwesomeIcons.house), label: 'Home'),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.wallet),
-            label: 'Carteiras'
-          ),
+              icon: FaIcon(FontAwesomeIcons.wallet), label: 'Carteiras'),
           BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.piggyBank),
             label: 'Orçamentos',
           ),
           BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.fileExcel),
+            icon: FaIcon(FontAwesomeIcons.arrowsRotate),
             label: 'Transações',
           )
         ],
