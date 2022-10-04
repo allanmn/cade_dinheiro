@@ -1,5 +1,7 @@
 import 'package:cade_o_dinheiro/controllers/tabs_controller.dart';
+import 'package:cade_o_dinheiro/pages/budgets_page.dart';
 import 'package:cade_o_dinheiro/pages/home_page.dart';
+import 'package:cade_o_dinheiro/pages/transactions_page.dart';
 import 'package:cade_o_dinheiro/pages/wallets_page.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +47,8 @@ class TabsPage extends GetView<TabsController> {
                 children: [
                   HomePage(),
                   WalletsPage(),
+                  BudgetsPage(),
+                  TransactionsPage()
                 ],
               ),
             ),

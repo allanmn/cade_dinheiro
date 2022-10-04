@@ -45,7 +45,8 @@ class HomePage extends GetView<HomeController> {
                           Visibility(
                             visible: controller.showMoney.isTrue,
                             child: Text(
-                              Helpers.currencyFormat(controller.totalWallets.value),
+                              Helpers.currencyFormat(
+                                  controller.totalWallets.value),
                               textAlign: TextAlign.start,
                               style: const TextStyle(
                                 color: Colors.black,
@@ -105,7 +106,7 @@ class HomePage extends GetView<HomeController> {
                   height: 20,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(
                       onTap: () {
@@ -116,44 +117,85 @@ class HomePage extends GetView<HomeController> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(30),
-                          child: Column(
-                            children: const [
-                              FaIcon(
-                                FontAwesomeIcons.wallet,
-                                size: 25,
-                              ),
-                              Text(
-                                'Carteiras',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              )
-                            ],
+                        child: SizedBox(
+                          width: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              children: const [
+                                FaIcon(
+                                  FontAwesomeIcons.wallet,
+                                  size: 25,
+                                ),
+                                Text(
+                                  'Carteiras',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: 10,
                     ),
                     Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: Column(
-                          children: const [
-                            FaIcon(
-                              FontAwesomeIcons.fileExcel,
-                              size: 25,
+                      child: SizedBox(
+                        width: 100,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Column(
+                            children: const [
+                              FaIcon(
+                                FontAwesomeIcons.piggyBank,
+                                size: 25,
+                              ),
+                              Text(
+                                'Orçamentos',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        tabsController.currentIndex.value = 3;
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: SizedBox(
+                          width: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              children: const [
+                                FaIcon(
+                                  FontAwesomeIcons.fileExcel,
+                                  size: 25,
+                                ),
+                                Text(
+                                  'Transações',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
                             ),
-                            Text(
-                              'Carteiras',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            )
-                          ],
+                          ),
                         ),
                       ),
                     ),
