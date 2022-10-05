@@ -17,6 +17,7 @@ class HomeController extends GetxController {
   }
 
   getTotalWallets() {
+    totalWallets.value = 0;
     walletRepository.wallets.forEach((element) {
       totalWallets.value += element.total;
     });

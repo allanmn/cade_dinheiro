@@ -2,6 +2,7 @@ import 'package:cade_o_dinheiro/controllers/home_controller.dart';
 import 'package:cade_o_dinheiro/helpers/helpers.dart';
 import 'package:cade_o_dinheiro/models/transaction_model.dart';
 import 'package:cade_o_dinheiro/repositories/transactions_repository.dart';
+import 'package:cade_o_dinheiro/repositories/wallets_repository.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:cade_o_dinheiro/widgets/create_transaction.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 
 class TransactionsController extends GetxController {
   var transactionRepository = Get.find<TransactionsRepository>();
+  var walletRepository = Get.find<WalletsRepository>();
   var homeController = Get.find<HomeController>();
 
   @override

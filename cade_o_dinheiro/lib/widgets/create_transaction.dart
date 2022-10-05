@@ -1,6 +1,8 @@
 import 'package:cade_o_dinheiro/models/budget_model.dart';
 import 'package:cade_o_dinheiro/models/transaction_model.dart';
 import 'package:cade_o_dinheiro/models/wallet_model.dart';
+import 'package:cade_o_dinheiro/repositories/budgets_repository.dart';
+import 'package:cade_o_dinheiro/repositories/wallets_repository.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_select/flutter_native_select.dart';
@@ -9,6 +11,9 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CreateTransaction extends StatefulWidget {
+  var budgetsRepository = Get.find<BudgetsRepository>();
+  var walletsRepository = Get.find<WalletsRepository>();
+
   TransactionModel? transaction;
   final nameController = TextEditingController();
   final valueController = TextEditingController();
@@ -20,19 +25,18 @@ class CreateTransaction extends StatefulWidget {
   WalletModel? selectedWallet;
   BudgetModel? selectedBudget;
 
-  final transactionTypes = ['Despezas', 'Receitas'];
+  final transactionTypes = ['Despezas'];
 
-  var wallets = [
-    WalletModel(name: 'name', total: 10),
-    WalletModel(name: 'TESTE', total: 20),
-  ];
-
-  var budgets = [BudgetModel(name: 'teste', total: 10, icon: '')];
+  var wallets = <WalletModel>[].obs;
+  var budgets = <BudgetModel>[].obs;
 
   CreateTransaction({
     Key? key,
     this.transaction,
   }) {
+    wallets.addAll(walletsRepository.wallets);
+    budgets.addAll(budgetsRepository.budgets);
+
     if (transaction != null) {
       nameController.text = transaction!.name;
       valueController.text = transaction!.total.toString();
@@ -53,48 +57,54 @@ class _CreateTransactionState extends State<CreateTransaction> {
   final _formKey = GlobalKey<FormState>();
 
   void showWalletSelect() async {
-    final selectedItem = await FlutterNativeSelect.openSelect(
-      title: 'Selecione uma carteira',
-      doneText: 'Pronto!',
-      clearText: 'Cancelar',
-      items: widget.wallets
-          .map(
-            (e) => NativeSelectItem(
-              value: e.name,
-              label: e.name,
-            ),
-          )
-          .toList(),
-    );
+    if (widget.wallets.isNotEmpty) {
+      final selectedItem = await FlutterNativeSelect.openSelect(
+        title: 'Selecione uma carteira',
+        doneText: 'Pronto!',
+        clearText: 'Cancelar',
+        items: widget.wallets
+            .map(
+              (e) => NativeSelectItem(
+                value: e.name,
+                label: e.name,
+              ),
+            )
+            .toList(),
+      );
 
-    if (selectedItem != null) {
-      setState(() {
-        widget.selectedWallet = widget.wallets.firstWhere((element) => element.name == selectedItem);
-        widget.walletController.text = selectedItem;
-      });
+      if (selectedItem != null) {
+        setState(() {
+          widget.selectedWallet = widget.wallets
+              .firstWhere((element) => element.name == selectedItem);
+          widget.walletController.text = selectedItem;
+        });
+      }
     }
   }
 
   void showBudgetSelect() async {
-    final selectedItem = await FlutterNativeSelect.openSelect(
-      title: 'Selecione uma orçamento',
+    if (widget.budgets.isNotEmpty) {
+      final selectedItem = await FlutterNativeSelect.openSelect(
+        title: 'Selecione uma orçamento',
       doneText: 'Pronto!',
-      clearText: 'Cancelar',
-      items: widget.budgets
-          .map(
-            (e) => NativeSelectItem(
-              value: e.name,
-              label: e.name,
-            ),
-          )
-          .toList(),
-    );
+        clearText: 'Cancelar',
+        items: widget.budgets
+            .map(
+              (e) => NativeSelectItem(
+                value: e.name,
+                label: e.name,
+              ),
+            )
+            .toList(),
+      );
 
-    if (selectedItem != null) {
-      setState(() {
-        widget.selectedBudget = widget.budgets.firstWhere((element) => element.name == selectedItem);
-        widget.budgetController.text = selectedItem;
-      });
+      if (selectedItem != null) {
+        setState(() {
+          widget.selectedBudget = widget.budgets
+              .firstWhere((element) => element.name == selectedItem);
+          widget.budgetController.text = selectedItem;
+        });
+      }
     }
   }
 
@@ -358,7 +368,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
                                     borderRadius: BorderRadius.circular(8),
                                     color: AppTheme.colors.danger),
                                 height: 40,
-                                width: MediaQuery.of(context).size.width / 2 - 25,
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 25,
                                 child: const Center(
                                   child: Text(
                                     'EXCLUIR',
@@ -376,8 +387,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
                                 Get.back(
                                   result: TransactionModel(
                                     name: widget.nameController.text,
-                                    total:
-                                        double.parse(widget.valueController.text),
+                                    total: double.parse(
+                                        widget.valueController.text),
                                     date: DateFormat('dd/MM/yyyy')
                                         .parse(widget.dateController.text),
                                     budget: widget.selectedBudget!,
@@ -391,7 +402,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
                                     borderRadius: BorderRadius.circular(8),
                                     color: AppTheme.colors.primary),
                                 height: 40,
-                                width: MediaQuery.of(context).size.width / 2 - 25,
+                                width:
+                                    MediaQuery.of(context).size.width / 2 - 25,
                                 child: const Center(
                                   child: Text(
                                     'ATUALIZAR',

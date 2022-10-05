@@ -1,5 +1,4 @@
 import 'package:cade_o_dinheiro/controllers/transactions_controller.dart';
-import 'package:cade_o_dinheiro/controllers/wallets_controller.dart';
 import 'package:cade_o_dinheiro/helpers/helpers.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:flutter/material.dart';

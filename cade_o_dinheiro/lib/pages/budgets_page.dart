@@ -1,13 +1,13 @@
-import 'package:cade_o_dinheiro/controllers/wallets_controller.dart';
+import 'package:cade_o_dinheiro/controllers/budgets_controller.dart';
 import 'package:cade_o_dinheiro/helpers/helpers.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class BudgetsPage extends GetView<WalletsController> {
+class BudgetsPage extends GetView<BudgetsController> {
   @override
-  var controller = Get.find<WalletsController>();
+  var controller = Get.find<BudgetsController>();
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class BudgetsPage extends GetView<WalletsController> {
         backgroundColor: AppTheme.colors.light,
         elevation: 0,
         title: const Text(
-          'Carteiras',
+          'Orçamentos',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
@@ -45,7 +45,7 @@ class BudgetsPage extends GetView<WalletsController> {
                       child: const Padding(
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          'Criar nova',
+                          'Novo orçamento',
                           style: TextStyle(
                             color: Colors.white,
                           ),
@@ -62,25 +62,26 @@ class BudgetsPage extends GetView<WalletsController> {
                 () => Stack(
                   children: [
                     Visibility(
-                      visible: controller.walletRepository.wallets.isEmpty,
+                      visible: controller.budgetsRepository.budgets.isEmpty,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
-                          Text('Nenhuma carteira cadastrada :('),
+                          Text('Nenhum orçamento cadastrado :('),
                         ],
                       ),
                     ),
                     Visibility(
-                      visible: controller.walletRepository.wallets.isNotEmpty,
+                      visible: controller.budgetsRepository.budgets.isNotEmpty,
                       child: Obx(
                         () => ListView.builder(
-                          itemCount: controller.walletRepository.wallets.length,
+                          itemCount:
+                              controller.budgetsRepository.budgets.length,
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
-                            var wallet =
-                                controller.walletRepository.wallets[index];
+                            var budget =
+                                controller.budgetsRepository.budgets[index];
                             return Column(
                               children: [
                                 Card(
@@ -108,7 +109,7 @@ class BudgetsPage extends GetView<WalletsController> {
                                               ),
                                               Text(
                                                 Helpers.currencyFormat(
-                                                  wallet.total,
+                                                  budget.total,
                                                 ),
                                                 style: const TextStyle(
                                                   color: Colors.white,
@@ -119,21 +120,53 @@ class BudgetsPage extends GetView<WalletsController> {
                                             ],
                                           ),
                                           const SizedBox(
-                                            height: 50,
+                                            height: 10,
+                                          ),
+                                          Obx(
+                                            () => Visibility(
+                                              visible: budget
+                                                      .transactionsRepository
+                                                      .transactions
+                                                      .isEmpty ||
+                                                  budget.transactionsRepository
+                                                      .transactions.isNotEmpty,
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  LinearProgressIndicator(
+                                                    value: budget
+                                                        .getTotalPercentage(),
+                                                    backgroundColor:
+                                                        Colors.grey,
+                                                    color: Colors.greenAccent,
+                                                  ),
+                                                  Text(
+                                                    "${Helpers.currencyFormat(budget.getTotal())} de ${Helpers.currencyFormat(budget.total)}",
+                                                    style: const TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.white
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          const SizedBox(
+                                            height: 10,
                                           ),
                                           Row(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                wallet.name,
+                                                budget.name,
                                                 style: const TextStyle(
                                                     color: Colors.white),
                                               ),
                                               InkWell(
                                                 onTap: () {
                                                   controller
-                                                      .openCreateModal(wallet);
+                                                      .openCreateModal(budget);
                                                 },
                                                 child: const FaIcon(
                                                   FontAwesomeIcons.sliders,
