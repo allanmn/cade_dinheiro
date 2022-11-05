@@ -2,14 +2,19 @@ import 'package:cade_o_dinheiro/models/budget_model.dart';
 import 'package:cade_o_dinheiro/models/wallet_model.dart';
 
 class TransactionModel {
+  int? id;
   String name;
   double total;
   String transactionType;
   DateTime date;
+  int? walletId;
+  int? budgetId;
+
   WalletModel wallet;
   BudgetModel budget;
 
   TransactionModel({
+    this.id,
     required this.name,
     required this.total,
     required this.transactionType,

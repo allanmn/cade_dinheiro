@@ -35,7 +35,7 @@ class WalletsController extends GetxController {
     }
 
     if (wallet == null && result != null && result is WalletModel) {
-      walletRepository.wallets.add(result);
+      walletRepository.add(result);
       Helpers.toast(
         title: 'Adicionado com sucesso',
         message: 'Carteira adicionada com sucesso.',
@@ -43,8 +43,8 @@ class WalletsController extends GetxController {
       );
     }
 
-    if (result != null && result is String && result == 'excluir') {
-      walletRepository.wallets.remove(wallet);
+    if (wallet != null && result != null && result is String && result == 'excluir') {
+      await walletRepository.remove(wallet);
       Helpers.toast(
         title: 'Removido com sucesso',
         message: 'Carteira removida com sucesso.',
@@ -55,9 +55,11 @@ class WalletsController extends GetxController {
     if (wallet != null && result != null && result is WalletModel) {
       var index = walletRepository.wallets.indexOf(wallet);
       var newWallet = WalletModel(
+        id: result.id,
         name: result.name,
         total: result.total,
       );
+      await walletRepository.update(newWallet);
       walletRepository.wallets.insert(index, newWallet);
       walletRepository.wallets.remove(wallet);
 

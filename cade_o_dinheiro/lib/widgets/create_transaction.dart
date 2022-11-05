@@ -34,7 +34,7 @@ class CreateTransaction extends StatefulWidget {
     Key? key,
     this.transaction,
   }) {
-    wallets.addAll(walletsRepository.wallets);
+    // wallets.addAll(walletsRepository.wallets);
     budgets.addAll(budgetsRepository.budgets);
 
     if (transaction != null) {

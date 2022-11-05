@@ -10,11 +10,26 @@ class HomeController extends GetxController {
   var totalWallets = 0.0.obs;
 
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
-    getTotalWallets();
+    await getWallets();
+
+    await listenWallets();
+
+    await getTotalWallets();
   }
+
+  listenWallets () async {
+    walletRepository.wallets.listen((p0) async {
+      await getTotalWallets();
+    });
+  }
+
+  getWallets () async {
+    walletRepository.getAll();
+  }
+
 
   getTotalWallets() {
     totalWallets.value = 0;

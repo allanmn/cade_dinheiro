@@ -185,6 +185,7 @@ class _CreateWalletState extends State<CreateWallet> {
                             onTap: () {
                               Get.back(
                                 result: WalletModel(
+                                  id: widget.wallet?.id,
                                   name: widget.nameController.text,
                                   total:
                                       double.parse(widget.valueController.text),

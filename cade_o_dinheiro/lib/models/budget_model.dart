@@ -1,15 +1,16 @@
-
 import 'package:cade_o_dinheiro/repositories/transactions_repository.dart';
 import 'package:get/get.dart';
 
 class BudgetModel {
   var transactionsRepository = Get.find<TransactionsRepository>();
 
+  int? id;
   String name;
   double total;
   String goal;
 
   BudgetModel({
+    this.id,
     required this.name,
     required this.total,
     required this.goal,
