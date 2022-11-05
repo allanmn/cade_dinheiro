@@ -27,79 +27,102 @@ class HomePage extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Seu saldo',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Obx(
-                      () => Stack(
-                        children: [
-                          Visibility(
-                            visible: controller.showMoney.isTrue,
-                            child: Text(
-                              Helpers.currencyFormat(
-                                  controller.totalWallets.value),
-                              textAlign: TextAlign.start,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Seu saldo',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Obx(
+                              () => Stack(
+                                children: [
+                                  Visibility(
+                                    visible: controller.showMoney.isTrue,
+                                    child: Text(
+                                      Helpers.currencyFormat(
+                                          controller.totalWallets.value),
+                                      textAlign: TextAlign.start,
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: controller.showMoney.isFalse,
+                                    child: const Text(
+                                      'R\$ ****, **',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                          Visibility(
-                            visible: controller.showMoney.isFalse,
-                            child: const Text(
-                              'R\$ ****, **',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 30,
-                                fontWeight: FontWeight.bold,
+                            Obx(
+                              () => Stack(
+                                children: [
+                                  Visibility(
+                                    visible: controller.showMoney.isTrue,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        controller.showMoney.value = false;
+                                      },
+                                      icon: const Icon(
+                                        Icons.visibility_off,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                    visible: controller.showMoney.isFalse,
+                                    child: IconButton(
+                                      onPressed: () {
+                                        controller.showMoney.value = true;
+                                      },
+                                      icon: const Icon(
+                                        Icons.visibility,
+                                        size: 30,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
                     ),
-                    Obx(
-                      () => Stack(
-                        children: [
-                          Visibility(
-                            visible: controller.showMoney.isTrue,
-                            child: IconButton(
-                              onPressed: () {
-                                controller.showMoney.value = false;
-                              },
-                              icon: const Icon(
-                                Icons.visibility_off,
-                                size: 30,
-                              ),
-                            ),
+                    Column(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Get.toNamed('/settings');
+                          },
+                          icon: const Icon(
+                            Icons.settings,
+                            size: 35,
                           ),
-                          Visibility(
-                            visible: controller.showMoney.isFalse,
-                            child: IconButton(
-                              onPressed: () {
-                                controller.showMoney.value = true;
-                              },
-                              icon: const Icon(
-                                Icons.visibility,
-                                size: 30,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                        )
+                      ],
+                    )
                   ],
                 ),
                 const SizedBox(
@@ -140,29 +163,34 @@ class HomePage extends GetView<HomeController> {
                         ),
                       ),
                     ),
-                    Card(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: SizedBox(
-                        width: 100,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Column(
-                            children: const [
-                              FaIcon(
-                                FontAwesomeIcons.piggyBank,
-                                size: 25,
-                              ),
-                              Text(
-                                'Orçamentos',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                    InkWell(
+                      onTap: () {
+                        tabsController.changePage(2);
+                      },
+                      child: Card(
+                        color: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: SizedBox(
+                          width: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Column(
+                              children: const [
+                                FaIcon(
+                                  FontAwesomeIcons.piggyBank,
+                                  size: 25,
                                 ),
-                              )
-                            ],
+                                Text(
+                                  'Orçamentos',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -39,6 +39,14 @@ dependencies:
   get_storage: ^2.0.3
   intl: ^0.17.0
   flutter_native_select: ^1.0.0
+  flutter_launcher_icons: ^0.10.0
+  flutter_native_splash: ^2.2.11
+  firebase_core: ^2.0.0
+  firebase_auth: ^4.0.1
+  cloud_firestore: ^4.0.1
+  google_sign_in: ^5.4.2
+  email_validator: ^2.1.17
+  loading_animation_widget: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
@@ -51,8 +59,22 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+
+flutter_native_splash:
+  color: "#82A3A1"
+
+  image: assets/icon/icon.png
+
+  android_12:
+    image: assets/icon/icon.png
+
+    color: "#82A3A1"
+
+    icon_background_color: "#ffffff"
 
 # The following section is specific to Flutter packages.
 flutter:
@@ -63,7 +85,9 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+  assets:
+    - assets/icon/icon.png
+    - assets/images/google.png
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

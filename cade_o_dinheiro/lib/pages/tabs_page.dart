@@ -34,7 +34,7 @@ class TabsPage extends GetView<TabsController> {
               BottomNavigationBarItem(
                 icon: FaIcon(FontAwesomeIcons.fileExcel),
                 label: 'Transações',
-              )
+              ),
             ],
             onTap: (index) => controller.changePage(index),
           )),
