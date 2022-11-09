@@ -1,8 +1,10 @@
 import 'package:cade_o_dinheiro/repositories/transactions_repository.dart';
+import 'package:cade_o_dinheiro/repositories/budgets_repository.dart';
 import 'package:cade_o_dinheiro/repositories/wallets_repository.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
+  var budgetRepository = Get.find<BudgetsRepository>();
   var walletRepository = Get.find<WalletsRepository>();
   var transactionRepository = Get.find<TransactionsRepository>();
 
@@ -12,6 +14,8 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+
+    await getBudgets();
 
     await getWallets();
 
@@ -26,10 +30,13 @@ class HomeController extends GetxController {
     });
   }
 
+  getBudgets () async {
+    budgetRepository.getAll();
+  }
+
   getWallets () async {
     walletRepository.getAll();
   }
-
 
   getTotalWallets() {
     totalWallets.value = 0;

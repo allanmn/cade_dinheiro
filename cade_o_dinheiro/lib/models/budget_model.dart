@@ -16,6 +16,22 @@ class BudgetModel {
     required this.goal,
   });
 
+  factory BudgetModel.fromJson(Map<String, dynamic> json) => BudgetModel(
+    name: json["name"],
+    total: json["value"],
+    id: json["id"],
+    goal: json["goal"],
+  );
+
+    Map<String, dynamic> toJson () {
+    return {
+      'id': id,
+      'name': name,
+      'value': total,
+      'goal' : goal,
+    };
+  }
+
   getTotal() {
     double total = 0;
 

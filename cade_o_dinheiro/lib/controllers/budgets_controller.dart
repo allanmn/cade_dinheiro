@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class BudgetsController extends GetxController {
-  var budgetsRepository = Get.find<BudgetsRepository>();
+  var budgetRepository = Get.find<BudgetsRepository>();
   var homeController = Get.find<HomeController>();
 
   @override
@@ -35,7 +35,7 @@ class BudgetsController extends GetxController {
     }
 
     if (budget == null && result != null && result is BudgetModel) {
-      budgetsRepository.budgets.add(result);
+      budgetRepository.add(result);
       Helpers.toast(
         title: 'Adicionado com sucesso',
         message: 'Orçamento adicionado com sucesso.',
@@ -43,8 +43,8 @@ class BudgetsController extends GetxController {
       );
     }
 
-    if (result != null && result is String && result == 'excluir') {
-      budgetsRepository.budgets.remove(budget);
+    if (budget != null && result != null && result is String && result == 'excluir') {
+      await budgetRepository.remove(budget);
       Helpers.toast(
         title: 'Removido com sucesso',
         message: 'Orçamento removido com sucesso.',
@@ -53,14 +53,16 @@ class BudgetsController extends GetxController {
     }
 
     if (budget != null && result != null && result is BudgetModel) {
-      var index = budgetsRepository.budgets.indexOf(budget);
+      var index = budgetRepository.budgets.indexOf(budget);
       var newBudget = BudgetModel(
+        id: budget.id,
         name: result.name,
         total: result.total,
         goal: result.goal,
       );
-      budgetsRepository.budgets.insert(index, newBudget);
-      budgetsRepository.budgets.remove(budget);
+      await budgetRepository.update(newBudget);
+      budgetRepository.budgets.insert(index, newBudget);
+      budgetRepository.budgets.remove(budget);
 
       Helpers.toast(
         title: 'Atualizado com sucesso',
@@ -68,7 +70,5 @@ class BudgetsController extends GetxController {
         color: AppTheme.colors.success,
       );
     }
-
-    homeController.getTotalWallets();
   }
 }
