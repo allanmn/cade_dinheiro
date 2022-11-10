@@ -16,6 +16,7 @@ class WalletsPage extends GetView<WalletsController> {
       appBar: AppBar(
         backgroundColor: AppTheme.colors.light,
         elevation: 0,
+        centerTitle: true,
         title: const Text(
           'Carteiras',
           style: TextStyle(

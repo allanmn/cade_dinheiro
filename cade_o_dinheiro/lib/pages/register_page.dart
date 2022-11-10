@@ -198,35 +198,8 @@ class RegisterPage extends GetView<RegisterController> {
                   const SizedBox(
                     height: 40,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Entre utilizando sua conta do Google',
-                        style: TextStyle(
-                          color: AppTheme.colors.secondary,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
                   const SizedBox(
                     height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 25,
-                          backgroundImage: AssetImage(
-                            'assets/images/google.png',
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:cade_o_dinheiro/models/budget_model.dart';
 import 'package:cade_o_dinheiro/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_select/flutter_native_select.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
@@ -8,17 +9,27 @@ class CreateBudget extends StatefulWidget {
   BudgetModel? budget;
   final nameController = TextEditingController();
   final valueController = TextEditingController();
-  final goalController = <String>['Alimentação', 'Despesas', 'Estudos', 'Lazer', 'Saúde','Transporte', 'Viagens'];
+  final goalTextController = TextEditingController();
+  final goalController = <String>[
+    'Alimentação',
+    'Despesas',
+    'Estudos',
+    'Lazer',
+    'Saúde',
+    'Transporte',
+    'Viagens'
+  ];
   String? selectedGoal;
 
   CreateBudget({
-    Key? key,
+    super.key,
     this.budget,
   }) {
     if (budget != null) {
       nameController.text = budget!.name;
       valueController.text = budget!.total.toString();
-      //goalController. = budget!.goal;
+      selectedGoal = budget!.goal;
+      goalTextController.text = budget!.goal;
     }
   }
 
@@ -28,6 +39,30 @@ class CreateBudget extends StatefulWidget {
 
 class _CreateBudgetState extends State<CreateBudget> {
   final _formKey = GlobalKey<FormState>();
+
+  void showGoalSelect() async {
+    final selectedItem = await FlutterNativeSelect.openSelect(
+      title: 'Selecione uma finalidade',
+      doneText: 'Pronto!',
+      clearText: 'Cancelar',
+      items: widget.goalController
+          .map(
+            (e) => NativeSelectItem(
+              value: e,
+              label: e,
+            ),
+          )
+          .toList(),
+    );
+
+    if (selectedItem != null && mounted) {
+      setState(() {
+        widget.selectedGoal = widget.goalController
+            .firstWhere((element) => element == selectedItem);
+        widget.goalTextController.text = selectedItem;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,19 +159,17 @@ class _CreateBudgetState extends State<CreateBudget> {
                     color: AppTheme.colors.medium,
                   ),
                 ),
-                DropdownButtonFormField(
+                TextFormField(
+                  onTap: () => showGoalSelect(),
+                  readOnly: true,
+                  controller: widget.goalTextController,
                   validator: (dynamic value) {
-                    if(value == null) {
-                      return 'Finalidade Obrigatória';
+                    if (value == null) {
+                      return 'Finalidade é obrigatório';
                     }
                     return null;
                   },
-                  items: widget.goalController.map<DropdownMenuItem>((e) => DropdownMenuItem(child: Text(e),
-                  value: e,)).toList(), 
-                  onChanged: (dynamic value) {
-                    widget.selectedGoal = value;
-                }),
-                
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -153,8 +186,8 @@ class _CreateBudgetState extends State<CreateBudget> {
                                   result: BudgetModel(
                                     name: widget.nameController.text,
                                     total: double.parse(
-                                        widget.valueController.text), 
-                                    goal: '',
+                                        widget.valueController.text),
+                                    goal: widget.goalTextController.text,
                                   ),
                                 );
                               }
@@ -211,10 +244,11 @@ class _CreateBudgetState extends State<CreateBudget> {
                             onTap: () {
                               Get.back(
                                 result: BudgetModel(
+                                  id: widget.budget?.id,
                                   name: widget.nameController.text,
                                   total:
                                       double.parse(widget.valueController.text),
-                                  goal: widget.selectedGoal!,
+                                  goal: widget.goalTextController.text,
                                 ),
                               );
                             },

@@ -37,16 +37,11 @@ class TransactionsController extends GetxController {
     }
 
     if (transaction == null && result != null && result is TransactionModel) {
-      transactionRepository.transactions.add(result);
-      Helpers.toast(
-        title: 'Adicionado com sucesso',
-        message: 'Transação adicionada com sucesso.',
-        color: AppTheme.colors.success,
-      );
+      transactionRepository.add(result);
     }
 
     if (result != null && result is String && result == 'excluir') {
-      transactionRepository.transactions.remove(transaction);
+      transactionRepository.remove(transaction!);
       Helpers.toast(
         title: 'Removido com sucesso',
         message: 'Transação removida com sucesso.',
@@ -57,13 +52,17 @@ class TransactionsController extends GetxController {
     if (transaction != null && result != null && result is TransactionModel) {
       var index = transactionRepository.transactions.indexOf(transaction);
       var newTransaction = TransactionModel(
+        id: transaction.id,
         name: result.name,
         total: result.total,
         date: result.date,
         transactionType: result.transactionType,
+        walletId: result.wallet?.id,
+        budgetId: result.budget?.id,
         wallet: result.wallet,
         budget: result.budget,
       );
+      await transactionRepository.update(newTransaction);
       transactionRepository.transactions.insert(index, newTransaction);
       transactionRepository.transactions.remove(transaction);
 

@@ -10,8 +10,8 @@ class TransactionModel {
   int? walletId;
   int? budgetId;
 
-  WalletModel wallet;
-  BudgetModel budget;
+  WalletModel? wallet;
+  BudgetModel? budget;
 
   TransactionModel({
     this.id,
@@ -19,24 +19,32 @@ class TransactionModel {
     required this.total,
     required this.transactionType,
     required this.date,
-    required this.wallet,
-    required this.budget,
+    this.walletId,
+    this.budgetId,
+    this.wallet,
+    this.budget,
   });
 
-  bool operator ==(dynamic other) {
-    return other is TransactionModel &&
-        name == other.name &&
-        total == other.total &&
-        transactionType == other.transactionType &&
-        date == other.date;
-  }
+  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
+      TransactionModel(
+        id: json["id"],
+        name: json["name"],
+        total: json["total"],
+        date: DateTime.fromMillisecondsSinceEpoch(json["date"]),
+        transactionType: json["transaction_type"],
+        budgetId: json["budget_id"],
+        walletId: json["wallet_id"],
+      );
 
-  @override
-  int get hashCode {
-    // Hash code algorithm derived from https://www.sitepoint.com/how-to-implement-javas-hashcode-correctly/
-    int hashCode = 1;
-    hashCode = (23 * hashCode) + name.hashCode;
-    hashCode = (23 * hashCode) + total.hashCode;
-    return hashCode;
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'total': total,
+      'date': date.toUtc().millisecondsSinceEpoch,
+      'transaction_type': transactionType,
+      'budget_id': budgetId,
+      'wallet_id': walletId,
+    };
   }
 }

@@ -35,7 +35,7 @@ class BudgetsController extends GetxController {
     }
 
     if (budget == null && result != null && result is BudgetModel) {
-      budgetsRepository.budgets.add(result);
+      await budgetsRepository.add(result);
       Helpers.toast(
         title: 'Adicionado com sucesso',
         message: 'Orçamento adicionado com sucesso.',
@@ -44,7 +44,7 @@ class BudgetsController extends GetxController {
     }
 
     if (result != null && result is String && result == 'excluir') {
-      budgetsRepository.budgets.remove(budget);
+      await budgetsRepository.remove(budget!);
       Helpers.toast(
         title: 'Removido com sucesso',
         message: 'Orçamento removido com sucesso.',
@@ -55,20 +55,20 @@ class BudgetsController extends GetxController {
     if (budget != null && result != null && result is BudgetModel) {
       var index = budgetsRepository.budgets.indexOf(budget);
       var newBudget = BudgetModel(
+        id: result.id,
         name: result.name,
         total: result.total,
         goal: result.goal,
       );
+      await budgetsRepository.update(newBudget);
       budgetsRepository.budgets.insert(index, newBudget);
       budgetsRepository.budgets.remove(budget);
 
       Helpers.toast(
         title: 'Atualizado com sucesso',
-        message: 'Orçamento atualizado com sucesso.',
+        message: 'Orçamento atualizada com sucesso.',
         color: AppTheme.colors.success,
       );
     }
-
-    homeController.getTotalWallets();
   }
 }

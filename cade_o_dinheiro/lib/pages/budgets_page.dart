@@ -16,6 +16,7 @@ class BudgetsPage extends GetView<BudgetsController> {
       appBar: AppBar(
         backgroundColor: AppTheme.colors.light,
         elevation: 0,
+        centerTitle: true,
         title: const Text(
           'Orçamentos',
           style: TextStyle(

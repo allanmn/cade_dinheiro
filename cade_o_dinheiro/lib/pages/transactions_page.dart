@@ -16,6 +16,7 @@ class TransactionsPage extends GetView<TransactionsController> {
       appBar: AppBar(
         backgroundColor: AppTheme.colors.light,
         elevation: 0,
+        centerTitle: true,
         title: const Text(
           'Transações',
           style: TextStyle(
@@ -114,19 +115,22 @@ class TransactionsPage extends GetView<TransactionsController> {
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.end,
                                         children: [
-                                          Container(
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8),
-                                              color: Colors.lightBlue,
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: Text(
-                                                transaction.wallet.name,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
+                                          Visibility(
+                                            visible: transaction.wallet != null,
+                                            child: Container(
+                                              height: 30,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: Colors.lightBlue,
+                                              ),
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(5),
+                                                child: Text(
+                                                  "${transaction.wallet?.name}",
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ),
                                             ),

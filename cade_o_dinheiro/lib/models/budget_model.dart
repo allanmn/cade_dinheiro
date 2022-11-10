@@ -16,11 +16,27 @@ class BudgetModel {
     required this.goal,
   });
 
+  factory BudgetModel.fromJson(Map<String, dynamic> json) => BudgetModel(
+        id: json["id"],
+        name: json["name"],
+        total: json["value"],
+        goal: json["goal"],
+      );
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'value': total,
+      'goal': goal,
+    };
+  }
+
   getTotal() {
     double total = 0;
 
     transactionsRepository.transactions.forEach((element) {
-      if (element.budget.name == name) {
+      if (element.budget?.name == name) {
         total += element.total;
       }
     });
@@ -32,7 +48,7 @@ class BudgetModel {
     double total = 0;
 
     transactionsRepository.transactions.forEach((element) {
-      if (element.budget.name == name) {
+      if (element.budget?.name == name) {
         total += element.total;
       }
     });

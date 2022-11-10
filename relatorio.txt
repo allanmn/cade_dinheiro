@@ -1,0 +1,8 @@
+Relatório Desenvolvimento Mobile
+Alunos: Allan Fernando Marcheck Neves, João Angelo Beraldo, Vitor Huggler
+Instalação:
+- Executar o comando flutter pub get no diretório cade_o_dinheiro e rodar o projeto pelo próprio vs code.
+
+-Allan: Login e CRUD Carteiras
+-João: CRUD Transações
+-Vitor: CRUD Orçamentos

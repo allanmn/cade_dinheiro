@@ -34,7 +34,7 @@ class CreateTransaction extends StatefulWidget {
     Key? key,
     this.transaction,
   }) {
-    // wallets.addAll(walletsRepository.wallets);
+    wallets.addAll(walletsRepository.wallets);
     budgets.addAll(budgetsRepository.budgets);
 
     if (transaction != null) {
@@ -43,8 +43,8 @@ class CreateTransaction extends StatefulWidget {
       selectedType = transaction!.transactionType;
       selectedBudget = transaction?.budget;
       selectedWallet = transaction?.wallet;
-      walletController.text = selectedWallet!.name;
-      budgetController.text = selectedBudget!.name;
+      walletController.text = "${selectedWallet?.name}";
+      budgetController.text = "${selectedBudget?.name}";
       dateController.text = DateFormat('dd/MM/yyyy').format(transaction!.date);
     }
   }
@@ -57,7 +57,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
   final _formKey = GlobalKey<FormState>();
 
   void showWalletSelect() async {
-    if (widget.wallets.isNotEmpty) {
+    if (widget.wallets.isNotEmpty && widget.transaction == null) {
       final selectedItem = await FlutterNativeSelect.openSelect(
         title: 'Selecione uma carteira',
         doneText: 'Pronto!',
@@ -83,7 +83,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
   }
 
   void showBudgetSelect() async {
-    if (widget.budgets.isNotEmpty) {
+    if (widget.budgets.isNotEmpty && widget.transaction == null) {
       final selectedItem = await FlutterNativeSelect.openSelect(
         title: 'Selecione uma orçamento',
       doneText: 'Pronto!',
@@ -184,6 +184,7 @@ class _CreateTransactionState extends State<CreateTransaction> {
                   ),
                   TextFormField(
                     controller: widget.valueController,
+                    readOnly: widget.transaction != null,
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -329,6 +330,8 @@ class _CreateTransactionState extends State<CreateTransaction> {
                                       budget: widget.selectedBudget!,
                                       wallet: widget.selectedWallet!,
                                       transactionType: widget.selectedType,
+                                      budgetId: widget.selectedBudget?.id,
+                                      walletId: widget.selectedWallet?.id,
                                     ),
                                   );
                                 }

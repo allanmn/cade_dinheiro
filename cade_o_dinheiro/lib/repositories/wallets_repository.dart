@@ -16,15 +16,21 @@ class WalletsRepository {
     wallets.addAll(response.map<WalletModel>((e) => WalletModel.fromJson(e)));
   }
 
+  find(int id) async {
+    db = await DB.instance.database;
+
+    var response = await db.query('wallets', where: 'id = ?', whereArgs: [id]);
+
+    if (response[0]['id'] != null) return WalletModel.fromJson(response[0]);
+
+    return null;
+  }
+
   add(WalletModel wallet) async {
     db = await DB.instance.database;
 
     await db.insert('wallets', wallet.toJson());
 
-    wallets.add(wallet);
-  }
-
-  create(WalletModel wallet) {
     wallets.add(wallet);
   }
 
@@ -38,7 +44,27 @@ class WalletsRepository {
   update(WalletModel walletModel) async {
     db = await DB.instance.database;
 
-    db.update('wallets', walletModel.toJson(),
+    await db.update('wallets', walletModel.toJson(),
         where: 'id = ?', whereArgs: [walletModel.id]);
+  }
+
+  verifyTotal(int id, double total) async {
+    db = await DB.instance.database;
+
+    var response = await db.query('wallets', where: 'id = ?', whereArgs: [id]);
+
+    if (response[0]["id"] != null) {
+      var wallet = WalletModel.fromJson(response[0]);
+
+      if (total <= wallet.total) {
+        var index = wallets.indexWhere((element) => element.id == wallet.id);
+        wallet.total -= total;
+        await db.update('wallets', wallet.toJson(),
+            where: 'id = ?', whereArgs: [wallet.id]);
+        wallets.insert(index, wallet);
+        wallets.remove(wallet);
+        return true;
+      }
+    }
   }
 }
