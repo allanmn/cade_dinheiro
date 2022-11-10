@@ -5,7 +5,6 @@ import 'package:sqflite/sqlite_api.dart';
 
 class BudgetsRepository {
   late Database db;
-
   var budgets = <BudgetModel>[].obs;
 
   getAll() async {
