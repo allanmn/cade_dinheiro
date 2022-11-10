@@ -13,6 +13,8 @@ class WalletsRepository {
 
     var response = await db.query('wallets');
 
+    wallets.clear();
+
     wallets.addAll(response.map<WalletModel>((e) => WalletModel.fromJson(e)));
   }
 
@@ -36,6 +38,8 @@ class WalletsRepository {
 
   remove(WalletModel wallet) async {
     db = await DB.instance.database;
+
+    print(wallet.id);
 
     db.delete('wallets', where: 'id = ?', whereArgs: [wallet.id]);
     wallets.remove(wallet);

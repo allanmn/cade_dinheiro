@@ -12,6 +12,8 @@ class BudgetsRepository {
 
     var response = await db.query('budgets');
 
+    budgets.clear();
+
     budgets.addAll(response.map<BudgetModel>((e) => BudgetModel.fromJson(e)));
   }
 

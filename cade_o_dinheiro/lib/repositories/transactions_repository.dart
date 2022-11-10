@@ -22,11 +22,15 @@ class TransactionsRepository {
     response.forEach((element) async {
       var transaction = TransactionModel.fromJson(element);
 
-      var wallet = await walletRepository.find(transaction.walletId!);
-      var budget = await budgetRepository.find(transaction.budgetId!);
+      if (transaction.walletId != null) {
+        var wallet = await walletRepository.find(transaction.walletId!);
+        transaction.wallet = wallet;
+      }
 
-      transaction.wallet = wallet;
-      transaction.budget = budget;
+      if (transaction.budgetId != null) {
+        var budget = await budgetRepository.find(transaction.budgetId!);
+        transaction.budget = budget;
+      }
 
       transactions.add(transaction);
     });
@@ -42,7 +46,7 @@ class TransactionsRepository {
     if (response == true) {
       await db.insert('transactions', transaction.toJson());
 
-      transactions.add(transaction);
+      await getAll();
 
       Helpers.toast(
         title: 'Adicionado com sucesso',
