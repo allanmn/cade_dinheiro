@@ -63,7 +63,7 @@ class BudgetsPage extends GetView<BudgetsController> {
                 () => Stack(
                   children: [
                     Visibility(
-                      visible: controller.budgetRepository.budgets.isEmpty,
+                      visible: controller.budgetsRepository.budgets.isEmpty,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
@@ -72,17 +72,17 @@ class BudgetsPage extends GetView<BudgetsController> {
                       ),
                     ),
                     Visibility(
-                      visible: controller.budgetRepository.budgets.isNotEmpty,
+                      visible: controller.budgetsRepository.budgets.isNotEmpty,
                       child: Obx(
                         () => ListView.builder(
                           itemCount:
-                              controller.budgetRepository.budgets.length,
+                              controller.budgetsRepository.budgets.length,
                           padding: EdgeInsets.zero,
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
                             var budget =
-                                controller.budgetRepository.budgets[index];
+                                controller.budgetsRepository.budgets[index];
                             return Column(
                               children: [
                                 Card(
